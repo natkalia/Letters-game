@@ -13,35 +13,49 @@ function changeToUpperChars(userWord) {
 }
 
 function checkIfNoNumbers(userWord) {
-  const regexIfNumber = /[0-9]/g;
-  let resultIfNoNumbers = userWord.match(regexIfNumber);
-  resultIfNoNumbers != null ? console.log("Błąd, podane słowo zawiera cyfrę/y!") : console.log("OK, słowo nie zawiera cyfr.");
-}
-
-function checkIfRepeat(userWord) {
-  let result = arrThisGame.includes(userWord);
-  result ? console.log("Błąd, to słowo już raz padło w tej grze!") : console.log("OK, słowo w tej grze jeszcze nie padło.");
+  const regexIfNoNumber = /[0-9]/g;
+  let valResult;
+  userWord.match(regexIfNoNumber) != null ? valResult = false : valResult = true;
+  return valResult;
 }
 
 function checkFirstLetter(userWord) {
   let thisChar = userWord.charAt(0);
   let previousWord = arrThisGame[arrThisGame.length-1]; 
   let previousChar = previousWord.charAt(previousWord.length-1);
+  let valResult; 
   thisChar = thisChar.toUpperCase();
   previousChar = previousChar.toUpperCase();
-  thisChar === previousChar ? console.log("OK, słowo zaczyna się na prawidłową literę.") : console.log("Błąd, słowo zaczyna się na nieprawidłową literę!");
+  thisChar === previousChar ? valResult = true : valResult = false;
+  return valResult; 
 }
 
 function checkIfExist(userWord) {
+  let valResult;
   userWord = userWord.toLowerCase();
-  myArray.includes(userWord) ? console.log("OK, podane słowo znajduje się w słowniku gry.") : console.log("Błąd, podanego słowa nie ma w słowniku gry.");
+  myArray.includes(userWord) ? valResult = true : valResult = false;
+  return valResult; 
+}
+
+function checkIfRepeat(userWord) {
+  let result = arrThisGame.includes(userWord);
+  let valResult;
+  result ? valResult = false : valResult = true;
+  return valResult;
 }
 
 function groupValidation(userWord) {
-  checkIfNoNumbers(userWord);
-  checkIfRepeat(userWord);
-  checkFirstLetter(userWord);
-  checkIfExist(userWord);
+  let valResult1 = checkIfNoNumbers(userWord);
+  let valResult2 = checkFirstLetter(userWord);
+  let valResult3 = checkIfExist(userWord);
+  let valResult4 = checkIfRepeat(userWord);
+  let finalValResult;
+  if (valResult1 && valResult2 && valResult3 && valResult4) {
+    finalValResult = true;
+  } else {
+    finalValResult = false;
+  }
+  return finalValResult;
 }
 
 function updateArray(userWord) {
@@ -52,6 +66,14 @@ function updateArray(userWord) {
 btn.addEventListener("click", function playGame() {
   let newWord = userInput.value;
   newWord = changeToUpperChars(newWord);
-  groupValidation(newWord);
-  updateArray(newWord);
+  let finalValResult = groupValidation(newWord);
+  if (finalValResult === true) {
+    alert("Runda zaliczona! Gramy dalej!");
+    updateArray(newWord); 
+    userInput.value="";
+  } else {
+    alert("Runda niezaliczona! Spróbuj jeszcze raz!");
+    userInput.value="";
+    return;
+  }
 });
