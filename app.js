@@ -4,7 +4,7 @@ const userInput = document.querySelector(".user-input");
 const btn = document.querySelector(".button");
 const used = document.querySelector(".used-words");
 
-function changeToUpperChars(userWord) {
+const changeToUpperChars = (userWord) => {
   return userWord
     .toLowerCase()
     .split("")
@@ -14,11 +14,11 @@ function changeToUpperChars(userWord) {
     .join("");
 }
 
-function checkIfNoNumbers(userWord) {
+const checkIfNoNumbers = (userWord) => {
   return userWord.match(/[0-9]/g) === null;
 }
 
-function checkFirstLetter(userWord) {
+const checkFirstLetter = (userWord) => {
   const thisChar = userWord[0];
   const previousChar = [...arrThisGame]
     .pop()
@@ -28,15 +28,15 @@ function checkFirstLetter(userWord) {
   return thisChar.toUpperCase() === previousChar.toUpperCase();
 }
 
-function checkIfExist(userWord) {
+const checkIfExist = (userWord) => {
   return myArray.includes(userWord.toLowerCase());
 }
 
-function checkIfRepeat(userWord) {
+const checkIfRepeat = (userWord) => {
   return !arrThisGame.includes(userWord);
 }
 
-function groupValidation(userWord) {
+const groupValidation = (userWord) => {
   return (
     checkIfNoNumbers(userWord) &&
     checkFirstLetter(userWord) &&
@@ -45,7 +45,7 @@ function groupValidation(userWord) {
   );
 }
 
-function updateArray(userWord) {
+const updateArray = (userWord) => {
   arrThisGame.push(userWord);
   used.innerHTML = arrThisGame;
 }
